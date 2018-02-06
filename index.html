@@ -41,21 +41,21 @@ new GT(el).on('tap',function(){
   text('double tap事件')
 }).on("longtap",function(){
   text('执行longtap事件')
-}).on('slide',function(params){
+}).on('slide',function(e,params){
   el.translateX += params.deltaX;
   el.translateY += params.deltaY;
-  params.event.preventDefault()
-}).on('swipeUp',function(params){
+  e.preventDefault()
+}).on('swipeUp',function(e,params){
   text('swipeUp')
-}).on('swipeDown',function(params){
+}).on('swipeDown',function(e,params){
   text('swipeDown')
-}).on('swipeLeft',function(params){
+}).on('swipeLeft',function(e,params){
   text('swipeLeft')
-}).on('swipeRight',function(params){
+}).on('swipeRight',function(e,params){
   text('swipeRight')
-}).on('rotate',function(params){
+}).on('rotate',function(e,params){
   el.rotateZ += params.angle;
-}).on('pinch',function(params){
+}).on('pinch',function(e,params){
   el.scaleX = el.scaleY = initscale *params.zoom;
 })
   </script>

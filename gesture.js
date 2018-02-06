@@ -43,7 +43,6 @@
   }
   Gesture.prototype = {
     _touch: function(e){
-      this.params.event = e;
       this.e = e.target;
       var point = e.touches ? e.touches[0] : e;
       var now = Date.now();
@@ -53,16 +52,16 @@
       this.longTapTimeout && clearTimeout(this.longTapTimeout);
       this.tapTimeout && clearTimeout(this.tapTimeout);
       this.doubleTap = false;
-      this._emit('touch');
+      this._emit('touch',e);
       if(e.touches.length > 1) {
         var point2 = e.touches[1];
         this.preVector = {x: point2.pageX - this.touch.startX,y: point2.pageY - this.touch.startY}
         this.startDistance = calcLen(this.preVector);
-        this._emit('multitouch');
+        this._emit('multitouch',e);
       } else {
         var self= this;
         this.longTapTimeout = setTimeout(function(){
-          self._emit('longtap');
+          self._emit('longtap',e);
           self.doubleTap = false;
           e.preventDefault();
         },~~this.longtapTime || 800);
@@ -76,18 +75,18 @@
     },
     _move: function(e){
       var point = e.touches ? e.touches[0] :e;
-      this._emit('move');
+      this._emit('move',e);
       if(e.touches.length > 1) {//multi touch
         var point2 = e.touches[1];
         var v = {x:point2.pageX - point.pageX,y:point2.pageY - point.pageY};
-        this._emit('multimove');
+        this._emit('multimove',e);
         if(this.preVector.x !== null){
           if(this.startDistance) {
             this.params.zoom = calcLen(v) / this.startDistance;
-            this._emit('pinch');
+            this._emit('pinch',e);
           }
           this.params.angle = calcAngle(v,this.preVector);
-          this._emit('rotate');
+          this._emit('rotate',e);
         }
         this.preVector.x = v.x;
         this.preVector.y = v.y;
@@ -107,7 +106,7 @@
           this.tapTimeout && clearTimeout(this.tapTimeout);
           this.doubleTap = false;
         }
-        this._emit('slide');
+        this._emit('slide',e);
         this.movetouch.x = point.pageX;
         this.movetouch.y = point.pageY;
       }
@@ -121,47 +120,47 @@
       if(this.movetouch.x && (ABS(deltaX) > this.distance || this.movetouch.y !== null && ABS(deltaY) > this.distance)) {//swipe happened
         if(ABS(deltaX) < ABS(deltaY)) {//swipeup and swipedown,but it generally used as a scrolling window
           if(deltaY < 0){
-            this._emit('swipeUp')
+            this._emit('swipeUp',e)
             this.params.direction = 'up';
           } else {
-            this._emit('swipeDown');
+            this._emit('swipeDown',e);
             this.params.direction = 'down';
           }
         } else {
           if(deltaX < 0){
-            this._emit('swipeLeft');
+            this._emit('swipeLeft',e);
             this.params.direction = 'left';
           } else {
-            this._emit('swipeRight');
+            this._emit('swipeRight',e);
             this.params.direction = 'right';
           }
         }
-        this._emit('swipe');
+        this._emit('swipe',e);
       } else {
         self = this;
         if(!this.doubleTap && timestamp - this.touch.startTime < 300) {
           this.tapTimeout = setTimeout(function(){
-            self._emit('tap')
+            self._emit('tap',e)
           },300)
         }
         if(this.doubleTap) {
-          this._emit('dbtap');
+          this._emit('dbtap',e);
           this.tapTimeout && clearTimeout(this.tapTimeout)
         }
       }
-      this._emit('end');
+      this._emit('end',e);
       this._init();
       this.preVector = {x:0,y:0}
     },
     _cancel: function(e){
-      this._emit('cancel');
+      this._emit('cancel',e);
       this._end();
     },
-    _emit: function(type){
+    _emit: function(type,e){
       !this.handles[type] && (this.handles[type] = []);
       if(isTarget(this.e,this.selector) || !this.selector) {
         for(var i = 0,len = this.handles[type].length; i < len; i++) {
-          typeof this.handles[type][i] === 'function' && this.handles[type][i](this.params);
+          typeof this.handles[type][i] === 'function' && this.handles[type][i](e,this.params);
         }
       }
       return true;
