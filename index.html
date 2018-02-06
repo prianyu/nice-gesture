@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>test</title>
+  <meta name="Description" content="快递100，提供上百家常用快递、物流公司的快递单号查询、快递网点电话查询、快递价格查询、网上寄快递服务，支持手机查询快递，提供免费Open API。" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" />
+  <style>
+    * {padding: 0;margin: 0;}
+    .container {padding: 10px;text-align: center;}
+    img {width: 200px;}
+    .text-wrap {position: fixed;bottom: 0;left:0;width:100%;}
+    p {text-align: center;}
+    .red {color: #f00;padding: 10px 0;font-size: 18px;}
+  </style>
+</head>
+<div class="container">
+  <img src="https://avatars2.githubusercontent.com/u/8599535?s=460&v=4" id="img">
+</div>
+<div class="text-wrap">
+  <p>操作图片，下面为操作结果</p>
+  <p id="text" class="red"></p>
+</div>
+
+<script src="./gesture.js"></script>
+<script src="./transform.js"></script>
+  <script>
+  var el = document.getElementById('img');
+  var p = document.getElementById("text");
+  var initscale = 1;
+  Transform(el);
+  function text(str) {
+    p.innerHTML = str;
+  }
+new GT(el).on('tap',function(){
+  text('执行tap事件')
+}).on('touch',function(){
+  initscale = el.scaleX;
+}).on('dbtap',function(){
+  (el.scaleX == 2) && (el.scaleX = el.scaleY =  1) || (el.scaleX = el.scaleY  =2);
+  text('double tap事件')
+}).on("longtap",function(){
+  text('执行longtap事件')
+}).on('slide',function(params){
+  el.translateX += params.deltaX;
+  el.translateY += params.deltaY;
+  params.event.preventDefault()
+}).on('swipeUp',function(params){
+  text('swipeUp')
+}).on('swipeDown',function(params){
+  text('swipeDown')
+}).on('swipeLeft',function(params){
+  text('swipeLeft')
+}).on('swipeRight',function(params){
+  text('swipeRight')
+}).on('rotate',function(params){
+  el.rotateZ += params.angle;
+}).on('pinch',function(params){
+  el.scaleX = el.scaleY = initscale *params.zoom;
+})
+  </script>
+</body>
+</html>
