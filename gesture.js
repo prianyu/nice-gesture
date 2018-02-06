@@ -110,6 +110,9 @@
         this.movetouch.x = point.pageX;
         this.movetouch.y = point.pageY;
       }
+      if(e.touches.length > 1) {
+        e.preventDefault();
+      }
     },
     _end: function(e) {
       this.longTapTimeout && clearTimeout(this.longTapTimeout);
