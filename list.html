@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>Demos</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" />
+  <style>
+    body {font-family: "Microsoft Yahei";}
+    * {padding: 0;margin: 0;}
+    ul,li {list-style:none;}
+    li {border-bottom: 1px solid #f2f2f2;position:relative;}
+    li .info {position:relative;z-index:2;background:#FFF;padding: 10px;font-size: 1rem;display: -webkit-box;}
+
+    .avatar {width: 2.6rem;height: 2.6rem;border-radius: 50%;border: 3px solid rgba(255,255,255,.5);color:#FFF;font-size: 1.5rem;line-height: 2.6rem;text-align: center;}
+    .mess {-webkit-box-flex: 1;margin-left: 10px;display: -webkit-box;-webkit-box-orient:vertical;-webkit-box-pack:center;}
+    small {color:#888;}
+    .ctrl {position:absolute;right:0;top:0;bottom:0;color: #FFF;}
+    .del {background:red;height: 100%;padding: 0 1em;}
+    .del span {display: inline-block;vertical-align: middle;}
+    .del:after{display: inline-block;height: 100%;width: 0;vertical-align: middle;content:'';}
+    #text {line-height:3em; text-align:center;color:red;}
+  </style>
+</head>
+<div class="container">
+  <ul id="list">
+    <li id="li0">
+      <div class="info">
+        <div class="avatar" style="background-color:#3cea40;">春</div>
+        <div class="mess">
+          <p>Dolores</p>
+          <p><small>竹外桃花三两枝，春江水暖鸭先知</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(0)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li1">
+      <div class="info">
+        <div class="avatar" style="background-color:#137d15;">夏</div>
+        <div class="mess">
+          <p>Logan</p>
+          <p><small>黄梅时节家家雨，青草池塘处处蛙。有约...</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(1)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li2">
+      <div class="info">
+        <div class="avatar" style="background-color:#d89c33;">秋</div>
+        <div class="mess">
+          <p>Mike</p>
+          <p><small>落霞与孤鹜齐飞，秋水共长天一色...</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(2)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li3">
+      <div class="info">
+        <div class="avatar" style="background-color:#24b6d6;">冬</div>
+        <div class="mess">
+          <p>Wing</p>
+          <p><small>瀚海阑干百丈冰，愁云惨淡万里凝 = =</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(3)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li4">
+      <div class="info">
+        <div class="avatar" style="background-color:#f49afb;">梅</div>
+        <div class="mess">
+          <p>Alexander</p>
+          <p><small>梅须逊雪三分白，雪却输梅一段香</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(4)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li5">
+      <div class="info">
+        <div class="avatar" style="background-color:#e8cc17db;">兰</div>
+        <div class="mess">
+          <p>Thomas</p>
+          <p><small>春到兰芽分外长，不随红叶自低昂。</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(5)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li6">
+      <div class="info">
+        <div class="avatar" style="background-color:#eeac38">菊</div>
+        <div class="mess">
+          <p>SamuelMich</p>
+          <p><small>吾生如寄，尚想三径菊花丛。</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(6)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+    <li id="li7">
+      <div class="info">
+        <div class="avatar" style="background-color:#26a245;">竹</div>
+        <div class="mess">
+          <p>Michael</p>
+          <p><small>斑竹枝，斑竹枝，泪痕点点寄相思</small></p>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="del" onclick="remove(7)">
+          <span>删除</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div id="text"></div>
+</div>
+<script src="./gesture.js"></script>
+<script src="./transform.js"></script>
+<script>
+var textNode = document.getElementById('text');
+var list = document.getElementById("list");
+function fillText(str) {
+  textNode.innerHTML = str;
+}
+function remove(index) {
+  list.removeChild(document.getElementById('li'+index));
+}
+list.querySelectorAll('.info').forEach(function(el){
+  Transform(el);//transform实例化
+  el.redirect = true;//标记tap时是否跳转
+})
+//使用事件委托实例化手势
+new GT("#list",'.info').on('touch',function(e,params){
+  var target = params.selector;
+  //触摸时所有的列表项恢复初始状态
+  document.getElementById('list').querySelectorAll('.info').forEach(function(el){
+    el.translateX = 0;
+  });
+}).on('tap',function(e,params){
+  var target = params.selector;
+  if(target.redirect) {
+    fillText('单击操作，准备跳转到详情窗口');
+  } else {
+    fillText("单击操作，恢复列表状态");
+    target.translateX = 0;
+  }
+}).on('slide',  function(e,params) {
+  var target = params.selector;
+  var offset = target.translateX + params.deltaX;
+  target.translateX = Math.min(0,Math.max(-68,offset));
+  fillText("滑动操作，慢慢显示操作按钮");
+}).on('swipeLeft',function(e,params){
+  var target = params.selector;
+  target.translateX = params.diffX < -30 ? -68 : 0;
+  fillText("左划动操作");
+}).on('finish',function(e,params){
+  //执行结束后判断平移的距离，小于30恢复，大于等于30则展开操作按钮
+  var target = params.selector;
+  if(target.translateX < -30){
+    target.translateX = -68;
+    target.redirect = false;
+  } else {
+    target.translateX = 0;
+    target.redirect = true;
+  }
+}).on("longtap",function(e,params){
+  //longtap主要为安卓用户的操作习惯
+  var target = params.selector;
+  target.translateX = -68;
+  fillText("长按操作，直接显示操作按钮");
+})
+</script>
+</body>
+</html>
