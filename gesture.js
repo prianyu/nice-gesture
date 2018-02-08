@@ -4,11 +4,11 @@
   var isTarget = function (obj,selector){
     while (obj != undefined && obj != null && obj.tagName.toUpperCase() != 'BODY'){
       if (obj.matches(selector)){
-        return true;
+        return obj;
       }
       obj = obj.parentNode;
     }
-    return false;
+    return null;
   }
   var calcLen = function(v) {
     return  Math.sqrt(v.x * v.x + v.y * v.y);
@@ -120,6 +120,7 @@
       var deltaX = ~~((this.movetouch.x || 0) - this.touch.startX),
           deltaY = ~~((this.movetouch.y || 0) - this.touch.startY);
       var direction = '';
+      this._emit('end',e);
       if(this.movetouch.x && (ABS(deltaX) > this.distance || this.movetouch.y !== null && ABS(deltaY) > this.distance)) {//swipe happened
         if(ABS(deltaX) < ABS(deltaY)) {//swipeup and swipedown,but it generally used as a scrolling window
           if(deltaY < 0){
@@ -139,19 +140,22 @@
           }
         }
         this._emit('swipe',e);
+        this._emit("finish",e);
       } else {
         self = this;
         if(!this.doubleTap && timestamp - this.touch.startTime < 300) {
           this.tapTimeout = setTimeout(function(){
-            self._emit('tap',e)
-          },300)
-        }
-        if(this.doubleTap) {
+            self._emit('tap',e);
+            self._emit("finish",e);
+          },300);
+        } else if(this.doubleTap) {
           this._emit('dbtap',e);
-          this.tapTimeout && clearTimeout(this.tapTimeout)
+          this.tapTimeout && clearTimeout(this.tapTimeout);
+          this._emit("finish",e);
+        } else {
+          this._emit("finish",e);
         }
       }
-      this._emit('end',e);
       this._init();
       this.preVector = {x:0,y:0}
     },
@@ -161,7 +165,9 @@
     },
     _emit: function(type,e){
       !this.handles[type] && (this.handles[type] = []);
-      if(isTarget(this.e,this.selector) || !this.selector) {
+      var currentTarget = isTarget(this.e,this.selector);
+      if(currentTarget || !this.selector) {
+        this.selector && (this.params.selector = currentTarget);
         for(var i = 0,len = this.handles[type].length; i < len; i++) {
           typeof this.handles[type][i] === 'function' && this.handles[type][i](e,this.params);
         }
