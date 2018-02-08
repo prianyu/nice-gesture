@@ -6,7 +6,15 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" />
   <style>
     body {font-family: "Microsoft Yahei";}
-    * {padding: 0;margin: 0;}
+    *{
+      padding: 0;margin: 0;
+      -webkit-touch-callout:none;
+      -webkit-user-select:none;
+      -khtml-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none;
+    }
     ul,li {list-style:none;}
     li {border-bottom: 1px solid #f2f2f2;position:relative;}
     li .info {position:relative;z-index:2;background:#FFF;padding: 10px;font-size: 1rem;display: -webkit-box;}
@@ -95,7 +103,7 @@
     </li>
     <li id="li5">
       <div class="info">
-        <div class="avatar" style="background-color:#e8cc17db;">兰</div>
+        <div class="avatar" style="background-color:#e8cc17;">兰</div>
         <div class="mess">
           <p>Thomas</p>
           <p><small>春到兰芽分外长，不随红叶自低昂。</small></p>
@@ -149,17 +157,18 @@ function fillText(str) {
 function remove(index) {
   list.removeChild(document.getElementById('li'+index));
 }
-list.querySelectorAll('.info').forEach(function(el){
-  Transform(el);//transform实例化
-  el.redirect = true;//标记tap时是否跳转
-})
+lis = list.querySelectorAll('.info');
+for(var i = 0, len = lis.length; i < len; i++){
+  Transform(lis[i]);//transform实例化
+  lis[i].redirect = true;//标记tap时是否跳转
+}
 //使用事件委托实例化手势
 new GT("#list",'.info').on('touch',function(e,params){
   var target = params.selector;
   //触摸时所有的列表项恢复初始状态
-  document.getElementById('list').querySelectorAll('.info').forEach(function(el){
-    el.translateX = 0;
-  });
+  for(var i = 0, len = lis.length; i < len; i++){
+    lis[i].translateX = 0;
+  }
 }).on('tap',function(e,params){
   var target = params.selector;
   if(target.redirect) {
