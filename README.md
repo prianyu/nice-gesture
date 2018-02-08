@@ -2,29 +2,31 @@
 
 ## 支持的手势
 
-+ **touch:** 原生的touchstart事件
-+ **multitouch:** 多个手指触摸事件
-+ **tap:** 单击事件
-+ **longtap:** 长按事件
-+ **dbtap:** 双击事件
-+ **move*:** 原生的touchmove事件
-+ **multimove:** 多个手指滑动事件
-+ **slide:** 滑动事件
-+ **swipe/swipeLeft/swipeRight/swipeUp/swipeDown:** 划动手势，滑动后手指离开触发
-+ **pinch:** 缩放手势
-+ **rotate:** 旋转手势
-+ **end:** 原生的touchend事件
-+ **cancel:** 原生的touchcancel事件
-+ **finish:** 执行完以上事件后执行的事件
++ ``touch:`` 原生的touchstart事件
++ ``multitouch:`` 多个手指触摸事件
++ ``tap:`` 单击事件
++ ``longtap:`` 长按事件
++ ``dbtap:`` 双击事件
++ ``move:`` 原生的touchmove事件
++ ``multimove:`` 多个手指滑动事件
++ ``slide:`` 滑动事件
++ ``swipe/swipeLeft/swipeRight/swipeUp/swipeDown:`` 划动手势，滑动后手指离开触发
++ ``pinch:`` 缩放手势
++ ``rotate:`` 旋转手势
++ ``end:`` 原生的touchend事件
++ ``cancel:`` 原生的touchcancel事件
++ ``finish:`` 执行完以上事件后执行的事件
 
 
 ## 使用方法
 
-1. 引入`gesture.js`，支持amd和cmd规范，如
+**1. 引入`gesture.js`，支持amd和cmd规范，如**
 
-  `<script src="./gesture.js"></script>`
+```html
+  <script src="./gesture.js"></script>
+```
 
-2. 实例化并绑定事件
+**2. 实例化并绑定事件**
 
 ```javascript
 
@@ -55,18 +57,23 @@ ges.on("longtap",function(e,params){
 > `e`: 原生的event事件对象，可以通过e.target等进行原生的操作
 
 > `params`: 触发事件时计算的各个参数，分别如下：
-
  >> `deltaX`: 触摸和移动时手指每次变化的横坐标
+
  >> `deltaY`: 触摸和移动时手指每次变化的纵坐标
+
  >> `diffX`: 触摸和移动时，相对开始触摸时的横坐标
+
  >> `diffY`: 触摸和移动时，相对开始触摸时的纵坐标
+
  >> `angle`: 触摸和移动时，旋转的角度
+
  >> `zoom`: 触摸和移动时，缩放的倍数
+
  >> `direction`: 划动的方向，值为`up/down/left/right`中的一个
 
  2. 方法
 
- `on(type,callback)`: 事件的绑定，支持链式调用和多次绑定,如：
+ > `on(type,callback)`: 事件的绑定，支持链式调用和多次绑定,如：
 
  ```javascript
  var ges = new GT("#tareget");
@@ -76,11 +83,11 @@ ges.on("longtap",function(e,params){
 
  ```
 
- `off(type)`: 卸载对应事件的处理函数，如`ges.off("tap")`将卸载tap事件的处理
+> `off(type)`: 卸载对应事件的处理函数，如`ges.off("tap")`将卸载tap事件的处理
 
- `destroy`: 销毁对象，`ges.destroy()`
+> `destroy`: 销毁对象，`ges.destroy()`
 
- `set(obj)`: 设置参数，目前仅接受`longtapTime`和`distance`两个参数,支持链式调用,如：
+> `set(obj)`: 设置参数，目前仅接受`longtapTime`和`distance`两个参数,支持链式调用,如：
 
  ```javascript
  ges.set({
@@ -192,7 +199,7 @@ CSS代码可查看通过源码查看，此处不做讲解。
 
 javascript代码:
 
-```javascipt
+```javascript
 var textNode = document.getElementById('text');
 var list = document.getElementById("list");
 function fillText(str) {
