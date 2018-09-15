@@ -1,6 +1,6 @@
 # 移动端手势库
 
-##简介
+## 简介
 
 该项目为文章[《一步步打造一个移动端手势库》](https://juejin.im/post/5a795e6d6fb9a0635630fe2b)的源代码，旨在提供一种实现移动手势库的思路，如果感兴趣，你可以fork本项目后进行完善
 如果以上文章无法打开，你可以[点击这里查看](https://github.com/prianyu/juejinArticle/tree/master/gesture)
