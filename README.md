@@ -212,17 +212,18 @@ function fillText(str) {
 function remove(index) {
   list.removeChild(document.getElementById('li'+index));
 }
-list.querySelectorAll('.info').forEach(function(el){
-  Transform(el);//transform实例化
-  el.redirect = true;//标记tap时是否跳转
-})
+lis = list.querySelectorAll('.info');
+for(var i = 0, len = lis.length; i < len; i++){
+  Transform(lis[i]);//transform实例化
+  lis[i].redirect = true;//标记tap时是否跳转
+}
 //使用事件委托实例化手势
 new GT("#list",'.info').on('touch',function(e,params){
   var target = params.selector;
   //触摸时所有的列表项恢复初始状态
-  document.getElementById('list').querySelectorAll('.info').forEach(function(el){
-    el.translateX = 0;
-  });
+  for(var i = 0, len = lis.length; i < len; i++){
+    lis[i].translateX = 0;
+  }
 }).on('tap',function(e,params){
   var target = params.selector;
   if(target.redirect) {
@@ -235,6 +236,7 @@ new GT("#list",'.info').on('touch',function(e,params){
   var target = params.selector;
   var offset = target.translateX + params.deltaX;
   target.translateX = Math.min(0,Math.max(-68,offset));
+  e.preventDefault()
   fillText("滑动操作，慢慢显示操作按钮");
 }).on('swipeLeft',function(e,params){
   var target = params.selector;

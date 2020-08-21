@@ -4,6 +4,15 @@
  */
 ;(function () {
 
+    /**
+     * n11   n12   n13  n14       x      n11*x +  n12*y + n13*z + n14
+     * n21   n22   n23  n24   *   y  =   n21*x +  n22*y + n23*z + n24
+     * n31   n32   n33  n34       z      n31*x +  n32*y + n33*z + n34
+     * n41   n42   n43  n44       1      n41*x +  n42*y + n43*z + n44
+     * 
+     *
+     */
+
     var Matrix3D = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
         this.elements =window.Float32Array ? new Float32Array(16) : [];
         var te = this.elements;
@@ -88,6 +97,7 @@
             var cosz =this._rounded( Math.cos(rz * -1));
             var sinz =this._rounded( Math.sin(rz * -1));
 
+            // 平移矩阵*绕X轴旋转矩阵
             this.multiplyMatrices(this, [
                 1, 0, 0, x,
                 0, cosx, sinx, y,
@@ -95,6 +105,7 @@
                 0, 0, 0, 1
             ]);
 
+            //绕Y旋转矩阵
             this.multiplyMatrices(this, [
                 cosy, 0, siny, 0,
                 0, 1, 0, 0,
@@ -102,6 +113,7 @@
                 0, 0, 0, 1
             ]);
 
+            //绕Z轴旋转矩阵
             this.multiplyMatrices(this,[
                 cosz * scaleX, sinz * scaleY, 0, 0,
                 -sinz * scaleX, cosz * scaleY, 0, 0,
@@ -109,6 +121,7 @@
                 0, 0, 0, 1
             ]);
 
+            //斜切变换
             if(skewX||skewY){
                 this.multiplyMatrices(this,[
                     this._rounded(Math.cos(skewX* Matrix3D.DEG_TO_RAD)), this._rounded( Math.sin(skewX* Matrix3D.DEG_TO_RAD)), 0, 0,
@@ -118,6 +131,7 @@
                 ]);
             }
 
+            //参照点
             if (originX || originY || originZ) {
                 this.elements[12] -= originX * this.elements[0] + originY * this.elements[4] + originZ * this.elements[8];
                 this.elements[13] -= originX * this.elements[1] + originY * this.elements[5] + originZ * this.elements[9];
@@ -148,7 +162,6 @@
             }
         });
     }
-
     window.Transform = function (element,notPerspective) {
 
         observe(
