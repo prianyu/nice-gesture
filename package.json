@@ -1,7 +1,7 @@
 {
   "name": "gesture",
   "version": "1.1.0",
-  "description": "A gesture library for mobile web applications.",
+  "description": "A tiny javascript library for multi-touch gestures in mobile web applications.",
   "main": "./dist/gesture.min.js",
   "scripts": {
     "build": "rollup -c ./rollup.config.js"

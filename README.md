@@ -2,39 +2,64 @@
 
 ## 简介
 
-该项目为文章[《一步步打造一个移动端手势库》](https://juejin.im/post/5a795e6d6fb9a0635630fe2b)的源代码，旨在提供一种实现移动手势库的思路，如果感兴趣，你可以fork本项目后进行完善
+一个轻量的移动端javascript手势库。
+
+**兼容性：**
+
++ Android 5.0+
++ iOS 7.0+
+
+**实现思路与方案**
+
+你可以参看文章[《一步步打造一个移动端手势库》](https://juejin.im/post/5a795e6d6fb9a0635630fe2b)
 如果以上文章无法打开，你可以[点击这里查看](https://github.com/prianyu/juejinArticle/tree/master/gesture)
+
+文章旨在提供一种实现移动手势库的思路，该项目即对文中思路的完整的实现。如果感兴趣，你可以fork本项目后进行完善
+
 ## 支持的手势
 
 + ``touch:`` 原生的touchstart事件
++ ``move:`` 原生的touchmove事件
++ ``end:`` 原生的touchend事件
++ ``cancel:`` 原生的touchcancel事件
 + ``multitouch:`` 多个手指触摸事件
-+ ``tap:`` 单击事件
++ ``tap:`` 单击事件，如果发生了双击则不会执行该事件
 + ``longtap:`` 长按事件
 + ``dbtap:`` 双击事件
-+ ``move:`` 原生的touchmove事件
 + ``multimove:`` 多个手指滑动事件
 + ``slide:`` 滑动事件
 + ``swipe/swipeLeft/swipeRight/swipeUp/swipeDown:`` 划动手势，滑动后手指离开触发
 + ``pinch:`` 缩放手势
 + ``rotate:`` 旋转手势
-+ ``end:`` 原生的touchend事件
-+ ``cancel:`` 原生的touchcancel事件
 + ``finish:`` 执行完以上事件后执行的事件
 
 
 ## 使用方法
 
-**1. 引入`gesture.js`，支持amd和cmd规范，如**
+### 1. 安装
+
+**方法一、使用script标签引入**
+
+**（1） 引入`dist/nice-gesture.js`或者`dist/nice-gesture.min.js`文件，支持amd和cmd规范，如**
 
 ```html
-  <script src="./gesture.js"></script>
+  <script src="./dist/gesture.js"></script>
+```
+
+**（2）使用npm**
+
+```shell
+npm install --save nice-gesture
+```
+```javascript
+import Gesture from 'nice-gesture'
 ```
 
 **2. 实例化并绑定事件**
 
 ```javascript
 
-var ges = new GT("#img").on("tap",function(){
+var ges = new Gesture("#img").on("tap",function(){
   console.log("执行了tap操作");
 }).on("dbtap",function(){
   console.log("执行了双击操作")
@@ -46,52 +71,58 @@ ges.on("longtap",function(e,params){
 
 ```
 
-## 参数说明
+## 属性、方法和API
 
-1. 构造函数`new GT(target[,selector])`
+#### 1. 构造函数`Gesture(target[,selector])`
 
-> `target` : 需要绑定事件的dom对象，可传入符合`querySelector`的选择器或者dom元素
++ `target` : 需要绑定事件的dom对象，可传入符合`querySelector`的选择器或者dom元素
 
-> `selector`: 可选，触发事件的子元素，用于事件委托，如target = ul，selector = li,仅支持传入选择器
++ `selector`: 可选，触发事件的子元素，用于事件委托，如target = ul，selector = li,仅支持传入选择器
 
-2. 回调函数
+#### 2. 事件回调函数
 
-所有的回调函数均接受两个参数`(e,params)`
+所有的触发的事件回调函数均接受两个参数`(e, metas)`
 
-> `e`: 原生的event事件对象，可以通过e.target等进行原生的操作
++ `e`: 原生的event事件对象，可以通过e.target等进行原生的操作
 
-> `params`: 触发事件时计算的各个参数，分别如下：
- >> `deltaX`: 触摸和移动时手指每次变化的横坐标
++ `metas`: 每次手指触碰开始，触发各个事件时引起各个数据变化，分别如下：
 
- >> `deltaY`: 触摸和移动时手指每次变化的纵坐标
+ 	+ `deltaX`: 触摸和移动时手指每次变化的横坐标
 
- >> `diffX`: 触摸和移动时，相对开始触摸时的横坐标
+ 	+ `deltaY`: 触摸和移动时手指每次变化的纵坐标
 
- >> `diffY`: 触摸和移动时，相对开始触摸时的纵坐标
+ 	+ `diffX`: 触摸和移动时，相对开始触摸时的横坐标
 
- >> `angle`: 触摸和移动时，旋转的角度
+ 	+ `diffY`: 触摸和移动时，相对开始触摸时的纵坐标
 
- >> `zoom`: 触摸和移动时，缩放的倍数
+ 	+ `angle`: 触摸和移动时，旋转的角度
 
- >> `direction`: 划动的方向，值为`up/down/left/right`中的一个
+ 	+  `zoom`: 触摸和移动时，缩放的倍数
 
- 2. 方法
+ 	+ `direction`: 划动的方向，值为`up/down/left/right`中的一个
 
- > `on(type,callback)`: 事件的绑定，支持链式调用和多次绑定,如：
+#### 3. API
+
+ + `on(type, callback)`: 事件的绑定，支持链式调用和多次绑定,如：
 
  ```javascript
- var ges = new GT("#tareget");
- ges.on("tap",function(){})
+var ges = new GT("#tareget");
+function handleTap = function(e) {
+	console.log('tap has happended');
+	console.log(e);
+}
+ ges.on("tap", handleTap)
     .on("tap",function(e,params){})
     .on("swipe",function(e,params){});
 
  ```
 
-> `off(type)`: 卸载对应事件的处理函数，如`ges.off("tap")`将卸载tap事件的处理
++ `off(type[,callback])`: 卸载对应事件的处理函数，如`ges.off("tap", handleTap)`将卸载tap事件的处理，不传第二个参数将卸载掉当前事件的所有回调
 
-> `destroy`: 销毁对象，`ges.destroy()`
++ `destroy`: 销毁对象，`ges.destroy()`
 
-> `set(obj)`: 设置参数，目前仅接受`longtapTime`和`distance`两个参数,支持链式调用,如：
++ `setOptions(obj)`: 设置参数，目前仅接受`longtapTime`和`distance`两个参数,支持链式调用,如：
+
 
  ```javascript
  ges.set({
@@ -120,7 +151,7 @@ ges.on("longtap",function(e,params){
 </div>
 
  ```
-javascript代码(引用了[transform.js](http://alloyteam.github.io/AlloyTouch/transformjs/))：
+> javascript代码(引用了[transform.js](http://alloyteam.github.io/AlloyTouch/transformjs/))：
 
 ```javascript
 
@@ -131,7 +162,7 @@ Transform(el);
 function text(str) {
   p.innerHTML = str;
 }
-new GT(el).on('tap',function(){
+new Gesture(el).on('tap',function(){
   text('执行tap事件')
 }).on('touch',function(){
   initscale = el.scaleX;
@@ -170,7 +201,8 @@ new GT(el).on('tap',function(){
 
 **2.聊天列表**
 
-在iOS版微信中，在聊天列表左划可以进行删除等操作，而在Android版中为进行操作。以下使用该手势库实现两个系统的操作一致性。
+
+通常在一些数据列表，如地址库，聊天列表，会有一些左滑删除等操作，结合该手势库也是可以轻松实现。
 
 html代码：
 
@@ -198,7 +230,7 @@ html代码：
 
 ```
 
-CSS代码可查看通过源码查看，此处不做讲解。
+> CSS代码可查看通过源码查看，此处不做讲解。
 
 
 javascript代码:
@@ -218,7 +250,7 @@ for(var i = 0, len = lis.length; i < len; i++){
   lis[i].redirect = true;//标记tap时是否跳转
 }
 //使用事件委托实例化手势
-new GT("#list",'.info').on('touch',function(e,params){
+new Gesture("#list",'.info').on('touch',function(e,params){
   var target = params.selector;
   //触摸时所有的列表项恢复初始状态
   for(var i = 0, len = lis.length; i < len; i++){
@@ -268,6 +300,12 @@ new GT("#list",'.info').on('touch',function(e,params){
 
 
 
+
+## 其他
+
+如果你觉得该手势库对你的应用或者学习有帮助，感谢点个star。该库仅提供基本的手势与手势引起的数据变化，并未实现如缩放、平移等操作。你可以fork该项目并进行更加复杂的一些功能完善。实际应用中，结合示例中的transform库，基本能满足绝大部分的应用场景。以下是我个人的掘金号，欢迎交流。
+
+![](https://qr.api.cli.im/newqr/create?data=https%253A%252F%252Fjuejin.im%252Fuser%252F2612095356518007&level=H&transparent=0&bgcolor=%23FFFFFF&forecolor=%23000&blockpixel=12&marginblock=2&logourl=&size=400&logoshape=no&eye_use_fore=&background=images%2Fbackground%2Fbg25.png&wper=0.84&hper=0.84&tper=0.08&lper=0.08&qrcode_eyes=pin-3.png&outcolor=&incolor=%231694e3&qr_rotate=0&text=&fontfamily=msyh.ttf&fontsize=30&fontcolor=&kid=bizcliim&time=1598000102&key=38ce3393d805f0ae579610f3d3fb3b98)
 
 
 
