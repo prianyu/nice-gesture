@@ -299,6 +299,10 @@ new Gesture("#list",'.info').on('touch',function(e,params){
 ![](./images/demo2.gif)
 
 
+可以扫一下二维码查看效果：
+
+![](./images/list.png)
+
 
 
 ## 其他
