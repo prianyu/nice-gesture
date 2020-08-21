@@ -21,7 +21,7 @@
   <p id="text" class="red"></p>
 </div>
 
-<script src="./gesture.js"></script>
+<script src="../dist/gesture.js"></script>
 <script src="./transform.js"></script>
   <script>
   var el = document.getElementById('img');
@@ -31,7 +31,7 @@
   function text(str) {
     p.innerHTML = str;
   }
-new GT(el).on('tap',function(){
+new Gesture(el).on('tap',function(){
   text('执行tap事件')
 }).on('touch',function(){
   initscale = el.scaleX;

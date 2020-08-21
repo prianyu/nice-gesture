@@ -1,0 +1,36 @@
+{
+  "name": "gesture",
+  "version": "1.1.0",
+  "description": "A gesture library for mobile web applications.",
+  "main": "./dist/gesture.min.js",
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prianyu/gesture.git"
+  },
+  "keywords": [
+    "gesture",
+    "javascript-gesture",
+    "js-gesture",
+    "swiper",
+    "longtap",
+    "pinch"
+  ],
+  "author": "prianYu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prianyu/gesture/issues"
+  },
+  "homepage": "https://github.com/prianyu/gesture#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "rollup": "^2.26.4",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-banner": "^0.2.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  }
+}

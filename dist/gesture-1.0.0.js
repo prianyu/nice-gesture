@@ -1,4 +1,3 @@
-// Created by yujintong on 2018-01-18
 ;(function(){
   var ABS = Math.abs;
   var isTarget = function (obj,selector){
