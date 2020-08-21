@@ -54,6 +54,7 @@ new Gesture(el).on('tap',function(){
   text('swipeRight')
 }).on('rotate',function(e,params){
   el.rotateZ += params.angle;
+  text("旋转了" + params.angle)
 }).on('pinch',function(e,params){
   el.scaleX = el.scaleY = initscale *params.zoom;
 })

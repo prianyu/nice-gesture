@@ -78,6 +78,7 @@ class Gesture {
   _move(e) {
     const point = e.touches ? e.touches[0] :e
     this._emit('move', e)
+    e.preventDefault()
     if(e.touches.length > 1) {//multi touch
       const point2 = e.touches[1];
       let v = {x:point2.pageX - point.pageX, y:point2.pageY - point.pageY}
@@ -88,6 +89,7 @@ class Gesture {
           this._emit('pinch', e)
         }
         this.params.angle = Util.getAngle(v, this.preVector)
+        document.title = this.params.angle
         this._emit('rotate', e)
       }
       this.preVector.x = v.x
@@ -111,9 +113,6 @@ class Gesture {
       this._emit('slide', e)
       this.movetouch.x = point.pageX
       this.movetouch.y = point.pageY
-    }
-    if(e.touches.length > 1) {
-      e.preventDefault()
     }
   }
 
@@ -159,6 +158,7 @@ class Gesture {
       }
     }
     this._initMetas()
+    return true
   }
 
   _cancel(e){

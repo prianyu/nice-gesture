@@ -19,7 +19,7 @@ function getAngle(v1, v2){
   if(l) {
     cosValue = (v1.x * v2.x + v1.y * v2.y) / l
     angle = Math.acos(Math.min(cosValue, 1))
-    angle = a.x * b.y - b.x * a.y > 0 ? -angle : angle
+    angle = v1.x * v2.y - v2.x * v1.y > 0 ? -angle : angle
     return angle * 180 / Math.PI
   }
   return 0

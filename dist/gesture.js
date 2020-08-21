@@ -54,7 +54,7 @@
     if (l) {
       cosValue = (v1.x * v2.x + v1.y * v2.y) / l;
       angle = Math.acos(Math.min(cosValue, 1));
-      angle = a.x * b.y - b.x * a.y > 0 ? -angle : angle;
+      angle = v1.x * v2.y - v2.x * v1.y > 0 ? -angle : angle;
       return angle * 180 / Math.PI;
     }
 
@@ -177,6 +177,8 @@
 
         this._emit('move', e);
 
+        e.preventDefault();
+
         if (e.touches.length > 1) {
           //multi touch
           var point2 = e.touches[1];
@@ -195,6 +197,7 @@
             }
 
             this.params.angle = Util.getAngle(v, this.preVector);
+            document.title = this.params.angle;
 
             this._emit('rotate', e);
           }
@@ -224,10 +227,6 @@
 
           this.movetouch.x = point.pageX;
           this.movetouch.y = point.pageY;
-        }
-
-        if (e.touches.length > 1) {
-          e.preventDefault();
         }
       }
     }, {
@@ -293,6 +292,8 @@
         }
 
         this._initMetas();
+
+        return true;
       }
     }, {
       key: "_cancel",
