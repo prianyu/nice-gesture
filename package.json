@@ -1,5 +1,5 @@
 {
-  "name": "gesture",
+  "name": "nice-gesture",
   "version": "1.1.0",
   "description": "A tiny javascript library for multi-touch gestures in mobile web applications.",
   "main": "./dist/gesture.min.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prianyu/gesture.git"
+    "url": "git+https://github.com/prianyu/nice-gesture.git"
   },
   "keywords": [
     "gesture",

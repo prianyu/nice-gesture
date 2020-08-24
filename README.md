@@ -43,7 +43,7 @@
 **（1） 引入`dist/nice-gesture.js`或者`dist/nice-gesture.min.js`文件，支持amd和cmd规范，如**
 
 ```html
-  <script src="./dist/gesture.js"></script>
+  <script src="./dist/nice-gesture.js"></script>
 ```
 
 **（2）使用npm**

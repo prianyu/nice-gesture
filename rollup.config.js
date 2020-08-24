@@ -7,7 +7,7 @@ import banner from 'rollup-plugin-banner'
 export default [{
   input: "src/index.js",
   output: {
-    file: "dist/gesture.min.js",
+    file: "dist/nice-gesture.min.js",
     format: "umd",
     name: "Gesture"
   },
@@ -21,7 +21,7 @@ export default [{
 },{
   input: "src/index.js",
   output: {
-    file: "dist/gesture.js",
+    file: "dist/nice-gesture.js",
     format: "umd",
     name: "Gesture"
   },
